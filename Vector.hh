@@ -1,6 +1,8 @@
 #ifndef VECTOR_HH
 #define VECTOR_HH
 
+#include <iostream>
+
 template <class T>
 class Vector
 {
