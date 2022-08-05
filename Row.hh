@@ -1,5 +1,5 @@
-#ifndef TABLES_HH
-#define TABLES_HH
+#ifndef ROW_HH
+#define ROW_HH
 
 #include "Vector.hh"
 #include "IntegerType.hh"
@@ -7,9 +7,14 @@
 #include "StringType.hh"
 #include "FloatType.hh"
 
-class Tables
+class Row
 {
-    
+private:
+    Vector<Type*> cells;
+public:
+    Row();
+    Row(Vector<Type*> cells);
+
 };
 
 #endif

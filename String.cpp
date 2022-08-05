@@ -46,7 +46,7 @@ void String::pop_back()
     delete [] buff;
 }
 
-void String::push_back(char* ch)
+void String::push_back(char ch)
 {
     int length = strlen(str);
     char* buff = new char[length + 2];
@@ -72,4 +72,26 @@ String& String::operator=(const String& other)
         this->str = new char[strlen(other.str)+1];
         strcpy(this->str, other.str);
     }
+    return *this;
+}
+
+char& String::operator[](int i)
+{
+    return str[i];
+}
+
+std::istream& operator>>(std::istream& is, String& obj)
+{
+    char* buff = new char[1000];
+    memset(&buff[0], 0, sizeof(buff));
+    is >> buff;
+    obj = String{ buff };
+    delete[] buff;
+    return is;
+}
+
+std::ostream& operator<<(std::ostream& os, const String& obj)
+{
+    os << obj.str;
+    return os;
 }

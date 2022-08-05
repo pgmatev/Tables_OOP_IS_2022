@@ -35,10 +35,10 @@ public:
         elements = new T[capacity];
     }
 
-    ~Vector()
-    {
-        destroy();
-    }
+    // ~Vector()
+    // {
+    //     destroy();
+    // }
 
     Vector& operator=(const Vector&  other)
     {
@@ -53,9 +53,10 @@ public:
                 this->elements[i] = other.elements[i];
             }
         }
+        return *this;
     }
 
-    void push(T element)
+    void push_back(T element)
     {
         if (size == capacity)
         {
@@ -69,7 +70,7 @@ public:
     {
         if (index == size)
         {
-            push(element);
+            push_back(element);
         }
         else
         {

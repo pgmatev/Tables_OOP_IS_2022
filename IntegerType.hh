@@ -3,9 +3,16 @@
 
 #include "Type.hh"
 
+#include <stdexcept>
+
 class IntegerType : public Type
 {
+private:
+    bool validate() override;
 
+public:
+    IntegerType();
+    IntegerType(const String& value);
 };
 
 #endif
