@@ -84,6 +84,7 @@ public:
         {
             return elements[index];
         }
+        return 0;
     }
 
     void pop()

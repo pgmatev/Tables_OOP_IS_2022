@@ -3,8 +3,6 @@
 
 #include "Type.hh"
 
-#include <stdexcept>
-
 class IntegerType : public Type
 {
 private:

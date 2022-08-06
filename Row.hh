@@ -14,7 +14,7 @@ private:
 public:
     Row();
     Row(Vector<Type*> cells);
-
+    Vector<Type*> getCells();
 };
 
 #endif

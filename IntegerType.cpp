@@ -2,7 +2,7 @@
 
 bool IntegerType::validate()
 {
-    if (this->getValue()[0] ==  '+' || this->getValue()[0] == '-' || (this->getValue()[0] > '0' && this->getValue()[0] < '9'))
+    if (this->getValue()[0] ==  '+' || this->getValue()[0] == '-' || (this->getValue()[0] > '0' && this->getValue()[0] <= '9'))
     {
         for (int i = 1; this->getValue()[i] != '\0'; i++)
         {

@@ -10,3 +10,8 @@ String& Type::getValue()
 {
     return value;
 }
+
+void Type::print()
+{
+    std::cout << value;
+}
