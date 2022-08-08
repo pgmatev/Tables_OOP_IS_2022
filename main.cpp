@@ -24,7 +24,9 @@ int main()
     // v2.push_back(r1);
     // Table t(v2);
     // std::cout << t.getRows()[0].getCells()[4]->getValue() << std::endl;
-    std::ifstream file("Input1.txt");
+    std::ifstream file("Input.txt");
     Table t1(file);
     t1.print();
+    std::ofstream file1("Output.txt");
+    t1.save(file1);
 }

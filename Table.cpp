@@ -127,3 +127,23 @@ void Table::print()
         std::cout << std::endl;
     }
 }
+
+void Table::save(std::ofstream& file)
+{
+    for (int i = 0; i < rows.size(); i++)
+    {
+        for (int j = 0; j < rows[i].getCells().size(); j++)
+        {
+            if (rows[i].getCells()[j] != nullptr)
+            {
+                file << rows[i].getCells()[j]->getValue() << ", ";
+            }
+            else 
+            {
+                file << ", ";
+            }
+        }
+        file << std::endl;
+    }
+    file.close();
+}

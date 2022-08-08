@@ -17,6 +17,7 @@ public:
     std::vector<Row>& getRows();
     std::string& clean(std::string& str);
     void print();
+    void save(std::ofstream& file);
 };
 
 #endif
