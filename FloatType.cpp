@@ -26,10 +26,5 @@ bool FloatType::validate()
 FloatType::FloatType() : Type()
 {}
 
-FloatType::FloatType(const String& value) : Type(value)
-{
-    if (!validate())
-    {
-        throw std::invalid_argument("The float type only accepts a string of digits preceded by a '+' or '-' sign and a floating point in the middle.");
-    }
-}
+FloatType::FloatType(const std::string& value) : Type(value)
+{}

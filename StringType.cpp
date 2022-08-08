@@ -8,15 +8,10 @@ bool StringType::validate() //do i need validation?
 StringType::StringType() : Type()
 {}
 
-StringType::StringType(const String& value) : Type(value)
-{
-    if (!validate())
-    {
-        throw std::invalid_argument("HA");
-    }
-}
+StringType::StringType(const std::string& value) : Type(value)
+{}
 
 void StringType::print()
 {
-    std::cout << "\"" << this->getValue() << "\"";
+    std::cout <<  this->getValue();
 }

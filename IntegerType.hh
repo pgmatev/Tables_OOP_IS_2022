@@ -6,11 +6,14 @@
 class IntegerType : public Type
 {
 private:
-    bool validate() override;
 
 public:
     IntegerType();
-    IntegerType(const String& value);
+    IntegerType(const std::string& value);
+    IntegerType(IntegerType& other);
+    bool validate() override;
+
+    // Type* clone() override;
 };
 
 #endif

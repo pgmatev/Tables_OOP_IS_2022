@@ -3,7 +3,7 @@
 
 #include "Type.hh"
 
-enum Currenies
+enum Currencies
 {
     USD,
     EUR,
@@ -13,10 +13,10 @@ enum Currenies
 class CurrencyType : public Type
 {
 private:
-    bool validate() override;
     Currencies currency;
 public:
     CurrencyType();
-    CurrencyType(const String& value);
+    CurrencyType(const std::string& value);
+    bool validate() override;
 };
 #endif

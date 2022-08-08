@@ -1,12 +1,12 @@
 #include "Type.hh"
 
-Type::Type(const String& value) : value(String(value))
+Type::Type(const std::string& value) : value(value)
 {}
 
-Type::Type() : value(String())
+Type::Type() : value(nullptr)
 {}
 
-String& Type::getValue()
+std::string& Type::getValue()
 {
     return value;
 }

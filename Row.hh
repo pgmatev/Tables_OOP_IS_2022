@@ -1,20 +1,22 @@
 #ifndef ROW_HH
 #define ROW_HH
 
-#include "Vector.hh"
+#include <vector>
+
 #include "IntegerType.hh"
 #include "FloatType.hh"
 #include "StringType.hh"
-#include "FloatType.hh"
+#include "CurrencyType.hh"
 
 class Row
 {
 private:
-    Vector<Type*> cells;
+    std::vector<Type*> cells;
 public:
     Row();
-    Row(Vector<Type*> cells);
-    Vector<Type*> getCells();
+    Row(std::vector<Type*> cells);
+    std::vector<Type*>& getCells();
+    Type* validateCell(std::string& str);
 };
 
 #endif

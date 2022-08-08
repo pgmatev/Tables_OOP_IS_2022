@@ -6,11 +6,11 @@
 class FloatType : public Type
 {
 private:
-    bool validate() override;
 
 public:
     FloatType();
-    FloatType(const String& value);
+    FloatType(const std::string& value);
+    bool validate() override;
 
 };
 

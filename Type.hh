@@ -2,21 +2,22 @@
 #define TYPE_HH
 
 #include <stdexcept>
+#include <cstring>
+#include <string>
+#include <iostream>
 
-#include "String.hh"
 
 class Type
 {
 private:
-    String value;
-
-    virtual bool validate() = 0;
+    std::string value;
 
 public:
     Type();
-    Type(const String& value);
-
-    String& getValue();
+    Type(const std::string& value);
+    virtual bool validate() = 0;
+    // virtual Type* clone() = 0;
+    std::string& getValue();
     void print();
 };
 
