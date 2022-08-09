@@ -18,5 +18,6 @@ public:
     CurrencyType();
     CurrencyType(const std::string& value);
     bool validate() override;
+    Currencies getCurrency();
 };
 #endif
