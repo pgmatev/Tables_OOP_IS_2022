@@ -1,10 +1,14 @@
 #include "Table.hh"
 
 Table::Table(std::vector<Row> rows) : rows(rows)
-{}
+{
+    resize();
+}
 
 Table::Table()
-{}
+{
+    resize();
+}
 
 Table::Table(std::ifstream& file) : rows()
 {
@@ -44,6 +48,32 @@ Table::Table(std::ifstream& file) : rows()
         }
     }
     file.close();
+    resize();
+}
+
+void Table::resize()
+{
+    int resizer = 0;
+    for(int i = 0; i < rows.size(); i++)
+    {
+        if (rows[i].getCells().size() > resizer)
+        {
+            while(resizer < rows[i].getCells().size())
+            {
+                resizer++;
+            }
+        }
+    }
+    for(int i = 0; i < rows.size(); i++)
+    {
+        if (rows[i].getCells().size() < resizer)
+        {
+            while(rows[i].getCells().size() < resizer)
+            {
+                rows[i].getCells().push_back(nullptr);
+            }
+        }
+    }
 }
 
 std::string& Table::clean(std::string& str)
@@ -112,13 +142,6 @@ void Table::print()
     }
     for (int i = 0; i < rows.size(); i++)
     {
-        if (rows[i].getCells().size() < padding.size())
-        {
-            for (int l = rows[i].getCells().size(); l < padding.size(); l++)
-            {
-                rows[i].getCells().push_back(nullptr);
-            }
-        }
         // std::cout << rows[i].getCells().size() << " -> size" << std::endl;
         for (int j = 0; j < rows[i].getCells().size(); j++)
         {
@@ -205,3 +228,81 @@ void Table::remove(int row, int col)
 {
     getRows()[row - 1].getCells()[col - 1] = nullptr;
 }
+
+Table Table::subTable(int beg_row, int beg_col, int end_row, int end_col)
+{
+    if (beg_row < 1 || end_row > getRows().size())
+    {
+        throw std::invalid_argument("Sub-Table row interval out of bounds.");
+    }
+    for (int i = 0; i < getRows().size(); i++)
+    {
+        if (beg_col < 1 || end_col > getRows()[i].getCells().size())
+        {
+            throw std::invalid_argument("Sub-Table column interval out of bounds.");
+        }
+    }
+    std::vector<Row> subRows;
+    for (int i = beg_row - 1; i < end_row; i++)
+    {
+        Row r;
+        for (int j = beg_col - 1; j < end_col; j++)
+        {
+            r.getCells().push_back(getRows()[i].getCells()[j]);
+        }
+        subRows.push_back(r);
+    }
+    return Table(subRows);
+}
+
+Table Table::subTable(std::vector<int> columns)
+{
+    resize();
+	int miniPos;
+
+	for (int i = 0; i < columns.size(); i++)
+	{
+		miniPos = i;
+		for (int j = i + 1; j < columns.size(); j++)
+		{
+			if (columns[j] < columns[miniPos])
+			{
+				miniPos = j;
+			}
+		}
+
+		int temp = columns[miniPos];
+		columns[miniPos] = columns[i];
+		columns[i] = temp;
+	}
+    std::vector<Row> subRows;
+    for (int i = 0; i < getRows().size(); i++)
+    {
+        Row r;
+        for (int j = 0; j < columns.size(); j++)
+        {
+            r.getCells().push_back(getRows()[i].getCells()[columns[j] - 1]);
+            if (columns[j] > getRows()[i].getCells().size())
+            {
+                throw std::invalid_argument("Column doesn't exist");
+            }
+
+        }
+        subRows.push_back(r);
+    }
+    return Table(subRows);
+}
+// Table Table::subTable(int a, std::function<bool(bool, bool)> func)
+// {
+//     std::vector<Row> subRows;
+//     for (int i = 0; i < rows.size(); i++)
+//     {
+//         for (int j = 0; j < rows[i].getCells().size(); j++)
+//         {
+//             if (dynamic_cast<IntegerType*>(rows[i].getCells()[j]))
+//             {
+//                 if 
+//             }
+//         }
+//     }
+// }
