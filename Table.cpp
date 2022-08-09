@@ -80,9 +80,19 @@ void Table::print()
             }
             if (rows[i].getCells()[j] != nullptr)
             {
-                if (padding[j] < rows[i].getCells()[j]->getValue().length())
+                if (dynamic_cast<StringType*>(rows[i].getCells()[j]))
                 {
-                    padding[j] = rows[i].getCells()[j]->getValue().length();
+                    if (padding[j] < static_cast<StringType*>(rows[i].getCells()[j])->trim().length())
+                    {
+                        padding[j] = static_cast<StringType*>(rows[i].getCells()[j])->trim().length();
+                    }
+                }
+                else 
+                {
+                    if (padding[j] < rows[i].getCells()[j]->getValue().length())
+                    {
+                        padding[j] = rows[i].getCells()[j]->getValue().length();
+                    }
                 }
             }
         }
@@ -104,16 +114,20 @@ void Table::print()
                 if(dynamic_cast<StringType*>(rows[i].getCells()[j]))
                 {
                     dynamic_cast<StringType*>(rows[i].getCells()[j])->print();
+                    for(int k = 0; k < padding[j] - dynamic_cast<StringType*>(rows[i].getCells()[j])->trim().length(); k++)
+                    {
+                        std::cout << " ";
+                    }
                 }
                 else
                 {
                     rows[i].getCells()[j]->print();
+                    for(int k = 0; k < padding[j] - rows[i].getCells()[j]->getValue().length(); k++)
+                    {
+                        std::cout << " ";
+                    }
                 }
-                for(int k = 0; k < padding[j] - rows[i].getCells()[j]->getValue().length(); k++)
-                {
-                    std::cout << " ";
-                }
-                std::cout << "|";
+                std::cout << " | ";
             }
             else
             {
@@ -121,7 +135,7 @@ void Table::print()
                 {
                     std::cout << " ";
                 }
-                std::cout << "|";
+                std::cout << " | ";
             }
         }
         std::cout << std::endl;
@@ -136,11 +150,27 @@ void Table::save(std::ofstream& file)
         {
             if (rows[i].getCells()[j] != nullptr)
             {
-                file << rows[i].getCells()[j]->getValue() << ", ";
+                if (j == 0)
+                {
+                    file << rows[i].getCells()[j]->getValue();
+                }
+                else
+                {
+                    file << ", " << rows[i].getCells()[j]->getValue();
+                }
+
             }
             else 
             {
-                file << ", ";
+                if (j == 0)
+                {
+                    file << " ";
+                }
+                else
+                {
+                    file << ", ";
+                }
+
             }
         }
         file << std::endl;

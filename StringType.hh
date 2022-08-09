@@ -11,7 +11,7 @@ public:
     StringType();
     StringType(const std::string& value);
     bool validate() override;
-
+    std::string trim();
     void print();
 };
 
