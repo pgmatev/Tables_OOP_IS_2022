@@ -2,6 +2,7 @@
 #define ROW_HH
 
 #include <vector>
+#include <stdexcept>
 
 #include "IntegerType.hh"
 #include "FloatType.hh"
@@ -16,7 +17,7 @@ public:
     Row();
     Row(std::vector<Type*> cells);
     std::vector<Type*>& getCells();
-    Type* validateCell(std::string& str);
+    Type* validateCell(std::string& str, int row_count, int col_count);
 };
 
 #endif

@@ -18,6 +18,8 @@ public:
     std::string& clean(std::string& str);
     void print();
     void save(std::ofstream& file);
+    void edit(std::string& str, int row, int col);
+    void remove(int row, int col);
 };
 
 #endif

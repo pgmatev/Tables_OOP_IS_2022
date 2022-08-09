@@ -11,8 +11,11 @@ Table::Table(std::ifstream& file) : rows()
     if(file.is_open())
     {
         std::string str;
+        int row_count = 0;
         while(getline(file, str))
         {
+            int col_count = 0;
+            row_count++;
             Row r;
             std::string cell = "";
             for(int i=0; i<(int)str.size(); i++)
@@ -24,14 +27,17 @@ Table::Table(std::ifstream& file) : rows()
                 cell += str[i];
                 }
                 else{
+                    col_count++;
                     clean(cell);
-                    Type* t = r.validateCell(cell);
+                    // std::cout << "Cell: " << cell << " Row: " << row_count << " Col: " << col_count << std::endl;
+                    Type* t = r.validateCell(cell, row_count, col_count);
                     r.getCells().push_back(t); //here i push back the cell but i first gotta differentiate the type
                     cell = "";
                 }
             }
+            col_count++;
             clean(cell);
-            Type* t = r.validateCell(cell);
+            Type* t = r.validateCell(cell, row_count, col_count);
             r.getCells().push_back(t); //here i push back the cell but i first gotta differentiate the type
 
             rows.push_back(r);
@@ -42,19 +48,26 @@ Table::Table(std::ifstream& file) : rows()
 
 std::string& Table::clean(std::string& str)
 {
+    bool is_front_clean = false;
     for(int i = 0; str[i] != '\0'; i++)
     {
-        if(str[i] != ' ')
+        if(!isspace(str[i]) && !is_front_clean)
         {
             str.erase(0, i);
-            break;
+            is_front_clean = true;
         }
     }
-    for(int i = str.length(); i >= 0; i--)
+    if (!is_front_clean)
     {
-        if(str[i] != ' ')
-        str.erase(i, str.length());
-        break;
+        str.erase();
+    }
+    for(int i = str.length() - 1; i >= 0; i--)
+    {
+        if(!isspace(str[i]))
+        {
+            str.erase(i + 1, str.length() - i);
+            break;
+        }
     }
     return str;
 }
@@ -176,4 +189,19 @@ void Table::save(std::ofstream& file)
         file << std::endl;
     }
     file.close();
+}
+
+void Table::edit(std::string& str, int row, int col)
+{
+    clean(str);
+    Type* t = getRows()[row - 1].validateCell(str, row, col);
+    if (t)
+    {
+        getRows()[row - 1].getCells()[col - 1] = t;
+    }
+}
+
+void Table::remove(int row, int col)
+{
+    getRows()[row - 1].getCells()[col - 1] = nullptr;
 }
