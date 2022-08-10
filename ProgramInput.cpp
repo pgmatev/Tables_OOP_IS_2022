@@ -180,51 +180,51 @@ void ProgramInput::run()
         {
             if (parameters.size() == 3)
             {
-                if(parameters[1].find(":") == std::string::npos || parameters[1].find(":") == std::string::npos)
+                try
                 {
-                    std::cout << "Intervals are set with a \":\" symbol." << std::endl;
-                }
-                else
-                {
-                    std::vector<int> arguments;
-                    int pos = 0;
-                    std::string token;
-                    for (int i = 1; i < parameters.size(); i++)
+                    if(parameters[1].find(":") == std::string::npos || parameters[1].find(":") == std::string::npos)
                     {
+                        std::cout << "Intervals are set with a \":\" symbol." << std::endl;
+                    }
+                    else
+                    {
+                        std::vector<int> arguments;
+                        int pos = 0;
+                        std::string token;
+                        for (int i = 1; i < parameters.size(); i++)
+                        {
+                            bool is_checked = false;
+                            while ((pos = parameters[i].find(":")) != std::string::npos) {
+                                if (!is_checked)
+                                {
+                                    token = parameters[i].substr(0, pos);
+                                    arguments.push_back(stoi(token));
+                                    parameters[i].erase(0, pos + 1);
+                                    is_checked = true;
+                                }
+                                else
+                                {
+                                    std::cout << "Invalid cell adress." << std::endl;
+                                    return;
+                                }
+                            }
+                            arguments.push_back(stoi(parameters[i]));
+                        }
+                        std::cout << "extracting..." << std::endl;
                         try
                         {
-                        bool is_checked = false;
-                        while ((pos = parameters[i].find(":")) != std::string::npos) {
-                            if (!is_checked)
-                            {
-                                token = parameters[i].substr(0, pos);
-                                arguments.push_back(stoi(token));
-                                parameters[i].erase(0, pos + 1);
-                                is_checked = true;
-                            }
-                            else
-                            {
-                                std::cout << "Invalid cell adress." << std::endl;
-                                return;
-                            }
-                        }
-                        arguments.push_back(stoi(parameters[i]));
+                            Table t = loaded_table.subTable(arguments[0], arguments[1], arguments[2], arguments[3]);
+                            t.print();
                         }
                         catch (std::invalid_argument& e)
                         {
-                            std::cout << "Extract only accepts integers." << std::endl;
+                            std::cout << e.what() << std::endl;
                         }
                     }
-                    std::cout << "extracting..." << std::endl;
-                    try
-                    {
-                        Table t = loaded_table.subTable(arguments[0], arguments[1], arguments[2], arguments[3]);
-                        t.print();
-                    }
-                    catch (std::invalid_argument& e)
-                    {
-                        std::cout << e.what() << std::endl;
-                    }
+                }
+                catch(std::invalid_argument& e)
+                {
+                    std::cout << "Extract only accepts integers." << std::endl;
                 }
             }
             else if (parameters.size() == 2)
@@ -258,13 +258,13 @@ void ProgramInput::run()
                     }
                 }
                 catch(std::invalid_argument& e)
-                    {
-                        std::cout << "Extract only accepts integers." << std::endl;
-                    }
+                {
+                    std::cout << "Extract only accepts integers." << std::endl;
+                }
             }
             else
             {
-                std::cout << "Wrong input." << std::endl;
+                std::cout << "Wrong input. Extract takes either 2 arguments -> beggining and end adress or 1 argument -> vector with column numbers." << std::endl;
             }
         }
     }
