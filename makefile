@@ -1,4 +1,4 @@
-OBJ = main.o Table.o Row.o Type.o IntegerType.o FloatType.o StringType.o CurrencyType.o
+OBJ = main.o ProgramInput.o Table.o Row.o Type.o IntegerType.o FloatType.o StringType.o CurrencyType.o
 CC = g++
 CFLAGS = -g -Wall -pedantic
 
@@ -7,7 +7,8 @@ main: $(OBJ)
 
 main.o: main.cpp
 	$(CC) -c ./main.cpp
-
+ProgramInput.o: ProgramInput.cpp ProgramInput.hh
+	$(CC) -c ./ProgramInput.cpp
 Table.o: Table.cpp Table.hh
 	$(CC) -c ./Table.cpp
 Row.o: Row.cpp Row.hh

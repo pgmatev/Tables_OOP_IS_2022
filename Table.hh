@@ -16,7 +16,9 @@ private:
 public:
     Table(std::vector<Row> rows);
     Table();
+    Table(const Table& other);
     Table(std::ifstream& file);
+    Table& operator=(const Table& other);
     std::vector<Row>& getRows();
     void print();
     void save(std::ofstream& file);

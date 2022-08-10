@@ -10,6 +10,12 @@ Table::Table()
     resize();
 }
 
+Table::Table(const Table& other)
+{
+    this->rows = other.rows;
+    resize();
+}
+
 Table::Table(std::ifstream& file) : rows()
 {
     if(file.is_open())
@@ -24,8 +30,6 @@ Table::Table(std::ifstream& file) : rows()
             std::string cell = "";
             for(int i=0; i<(int)str.size(); i++)
             {
-            // If cur char is not del, then append it to the cur "word", otherwise
-                // you have completed the word, print it, and start a new word.
                 if(str[i] != ',')
                 {
                 cell += str[i];
@@ -33,22 +37,29 @@ Table::Table(std::ifstream& file) : rows()
                 else{
                     col_count++;
                     clean(cell);
-                    // std::cout << "Cell: " << cell << " Row: " << row_count << " Col: " << col_count << std::endl;
                     Type* t = r.validateCell(cell, row_count, col_count);
-                    r.getCells().push_back(t); //here i push back the cell but i first gotta differentiate the type
+                    r.getCells().push_back(t);
                     cell = "";
                 }
             }
             col_count++;
             clean(cell);
             Type* t = r.validateCell(cell, row_count, col_count);
-            r.getCells().push_back(t); //here i push back the cell but i first gotta differentiate the type
-
+            r.getCells().push_back(t);
             rows.push_back(r);
         }
     }
     file.close();
     resize();
+}
+
+Table& Table::operator=(const Table& other)
+{
+    if (this != &other)
+    {
+        this->rows = other.rows;
+    }
+    return *this;
 }
 
 void Table::resize()
@@ -142,7 +153,6 @@ void Table::print()
     }
     for (int i = 0; i < rows.size(); i++)
     {
-        // std::cout << rows[i].getCells().size() << " -> size" << std::endl;
         for (int j = 0; j < rows[i].getCells().size(); j++)
         {
             if(rows[i].getCells()[j] != nullptr)
@@ -194,7 +204,6 @@ void Table::save(std::ofstream& file)
                 {
                     file << ", " << rows[i].getCells()[j]->getValue();
                 }
-
             }
             else 
             {
@@ -206,7 +215,6 @@ void Table::save(std::ofstream& file)
                 {
                     file << ", ";
                 }
-
             }
         }
         file << std::endl;
@@ -216,6 +224,10 @@ void Table::save(std::ofstream& file)
 
 void Table::edit(std::string& str, int row, int col)
 {
+    if (row > getRows().size() || col > getRows()[0].getCells().size())
+    {
+        throw std::invalid_argument("Adress exceeds Table's boundaries.");
+    }
     clean(str);
     Type* t = getRows()[row - 1].validateCell(str, row, col);
     if (t)
@@ -226,11 +238,16 @@ void Table::edit(std::string& str, int row, int col)
 
 void Table::remove(int row, int col)
 {
+    if (row > getRows().size() || col > getRows()[0].getCells().size())
+    {
+        throw std::invalid_argument("Adress exceeds Table's boundaries.");
+    }
     getRows()[row - 1].getCells()[col - 1] = nullptr;
 }
 
 Table Table::subTable(int beg_row, int beg_col, int end_row, int end_col)
 {
+    std:: cout << beg_row << " " << beg_col << " " << end_row << " " << end_col << std::endl;
     if (beg_row < 1 || end_row > getRows().size())
     {
         throw std::invalid_argument("Sub-Table row interval out of bounds.");
