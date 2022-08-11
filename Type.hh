@@ -16,7 +16,6 @@ public:
     Type();
     Type(const std::string& value);
     virtual bool validate() = 0;
-    // virtual Type* clone() = 0;
     std::string& getValue();
     void print();
 };

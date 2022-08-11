@@ -247,7 +247,6 @@ void Table::remove(int row, int col)
 
 Table Table::subTable(int beg_row, int beg_col, int end_row, int end_col)
 {
-    std:: cout << beg_row << " " << beg_col << " " << end_row << " " << end_col << std::endl;
     if (beg_row < 1 || end_row > getRows().size())
     {
         throw std::invalid_argument("Sub-Table row interval out of bounds.");
@@ -303,7 +302,6 @@ Table Table::subTable(std::vector<int> columns)
             {
                 throw std::invalid_argument("Column doesn't exist");
             }
-
         }
         subRows.push_back(r);
     }

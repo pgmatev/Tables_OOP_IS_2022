@@ -20,22 +20,7 @@ IntegerType::IntegerType() : Type()
 {}
 
 IntegerType::IntegerType(const std::string& value) : Type(value)
-{
-    // if (!validate())
-    // {
-    //     throw std::invalid_argument("The integer type only accepts a string of digits preceded by a '+' or '-' sign.");
-    // }
-}
+{}
 
 IntegerType::IntegerType(IntegerType& other) : Type(other.getValue())
-{
-    // if (!validate())
-    // {
-    //     throw std::invalid_argument("The integer type only accepts a string of digits preceded by a '+' or '-' sign.");
-    // }
-}
-
-// Type* IntegerType::clone()
-// {
-//     return new IntegerType(*this);
-// }
+{}

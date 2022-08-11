@@ -12,8 +12,6 @@ public:
     IntegerType(const std::string& value);
     IntegerType(IntegerType& other);
     bool validate() override;
-
-    // Type* clone() override;
 };
 
 #endif
