@@ -110,21 +110,24 @@ void ProgramInput::run()
                 loaded_table.print(); 
             }
         }
-
+        // parameters is of type vector<string> and holds the user input
         else if (parameters[0] == "edit")
         {
+            // validation that the table exists
             if (loaded_table.getRows().size() == 0)
             {
                 std::cout << "Load a table first." << std::endl;
             }
             else
             {
+                // validation that the edit input is correct
                 if (parameters.size() != 4)
                 {
                     std::cout << "Wrong input. Edit takes 3 parameters." << std::endl;  
                 }
                 try
                 {
+                    // the input is a string, but the function takes integers
                     int x = stoi(parameters[1]);
                     x = stoi(parameters[2]);
                 }
@@ -135,8 +138,10 @@ void ProgramInput::run()
                 std::cout << "editing..." << std::endl;
                 try
                 {
+                    // calling the function
                     loaded_table.edit(parameters[3], stoi(parameters[1]), stoi(parameters[2]));
                 }
+                // error handling of the function
                 catch(std::invalid_argument& e)
                 {
                     std::cout << e.what() << std::endl;

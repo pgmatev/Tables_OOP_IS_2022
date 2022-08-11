@@ -22,34 +22,42 @@ Table::Table(std::ifstream& file) : rows()
     {
         std::string str;
         int row_count = 0;
-        while(getline(file, str))
+        // Takes each row from the file
+        while(getline(file, str)) 
         {
             int col_count = 0;
             row_count++;
             Row r;
             std::string cell = "";
-            for(int i=0; i<(int)str.size(); i++)
+            // Takes each cell from the rows
+            for(int i=0; i<(int)str.size(); i++) 
             {
-                if(str[i] != ',')
+                // Checks for the delimiter
+                if(str[i] != ',') 
                 {
                 cell += str[i];
                 }
                 else{
                     col_count++;
-                    clean(cell);
+                    // Cleans the cell from whitespaces
+                    clean(cell); 
+                    // Validates whether the cell contains a valid type
                     Type* t = r.validateCell(cell, row_count, col_count);
                     r.getCells().push_back(t);
                     cell = "";
                 }
             }
             col_count++;
+            // The addition process has to be repeated for the cell after the last delimiter
             clean(cell);
             Type* t = r.validateCell(cell, row_count, col_count);
             r.getCells().push_back(t);
+            // The row is inserted, and the cycle repeats with the next line of the file
             rows.push_back(r);
         }
     }
     file.close();
+    //The rows have different sizes, so they have to be resized
     resize();
 }
 

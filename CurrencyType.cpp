@@ -28,10 +28,15 @@ bool CurrencyType::validate()
     if (getValue().find("€") != std::string::npos)
     {
         currency = EUR;
+        // The format is €-whitespace-value,
+        // but € takes double the size of a 
+        // normal ascii symbol, so the whitespace
+        // falls in the 3rd cell 
         if(getValue()[3] != ' ')
         {
             return false;
         }
+        //simple validation for the value
         for (int i = 4; getValue()[i] != '\0'; i++)
         {
             if((getValue()[i] < '0' || getValue()[i] > '9' ) && getValue()[i] != '.')
