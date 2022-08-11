@@ -69,9 +69,20 @@ void ProgramInput::run()
             {
                 std::cout << "Wrong input. Load takes only 1 parameter." << std::endl; 
             }
-            std::ifstream file(parameters[1]);
-            std::cout << "loading..." << std::endl;
-            loaded_table = Table(file);
+            else
+            {
+                try
+                {
+                    std::ifstream file(parameters[1]);
+                    std::cout << "loading..." << std::endl;
+                    loaded_table = Table(file);
+                }
+                catch (std::invalid_argument& e)
+                {
+                    std::cout << e.what() << std::endl;
+                }
+            }
+
         }
 
         else if (parameters[0] == "save")
@@ -86,9 +97,13 @@ void ProgramInput::run()
                 {            
                     std::cout << "Wrong input. Save takes only 1 parameter." << std::endl;
                 }
-                std::ofstream file(parameters[1]);
-                std::cout << "saving..." << std::endl;
-                loaded_table.save(file);
+                else
+                {
+                    std::ofstream file(parameters[1]);
+                    std::cout << "saving..." << std::endl;
+                    loaded_table.save(file);
+                }
+
             }
 
         }
@@ -106,8 +121,11 @@ void ProgramInput::run()
                     std::cout << "Wrong input. Print does not take parameters." << std::endl;
                     
                 }
-                std::cout << "printing..." << std::endl;
-                loaded_table.print(); 
+                else
+                {
+                    std::cout << "printing..." << std::endl;
+                    loaded_table.print(); 
+                }
             }
         }
         // parameters is of type vector<string> and holds the user input
@@ -125,27 +143,31 @@ void ProgramInput::run()
                 {
                     std::cout << "Wrong input. Edit takes 3 parameters." << std::endl;  
                 }
-                try
+                else
                 {
-                    // the input is a string, but the function takes integers
-                    int x = stoi(parameters[1]);
-                    x = stoi(parameters[2]);
+                    try
+                    {
+                        // the input is a string, but the function takes integers
+                        int x = stoi(parameters[1]);
+                        x = stoi(parameters[2]);
+                    }
+                    catch(std::invalid_argument& e)
+                    {
+                        std::cout << "Wrong input. The first 2 parameters should be integers." << std::endl;
+                    }
+                    std::cout << "editing..." << std::endl;
+                    try
+                    {
+                        // calling the function
+                        loaded_table.edit(parameters[3], stoi(parameters[1]), stoi(parameters[2]));
+                    }
+                    // error handling of the function
+                    catch(std::invalid_argument& e)
+                    {
+                        std::cout << e.what() << std::endl;
+                    }
                 }
-                catch(std::invalid_argument& e)
-                {
-                    std::cout << "Wrong input. The first 2 parameters should be integers." << std::endl;
-                }
-                std::cout << "editing..." << std::endl;
-                try
-                {
-                    // calling the function
-                    loaded_table.edit(parameters[3], stoi(parameters[1]), stoi(parameters[2]));
-                }
-                // error handling of the function
-                catch(std::invalid_argument& e)
-                {
-                    std::cout << e.what() << std::endl;
-                }
+
             }
         }
 
@@ -161,23 +183,26 @@ void ProgramInput::run()
                 {
                     std::cout << "Wrong input. Remove takes 2 parameters." << std::endl; 
                 }
-                try
+                else
                 {
-                    int x = stoi(parameters[1]);
-                    x = stoi(parameters[2]);
-                }
-                catch(std::invalid_argument& e)
-                {
-                    std::cout << "Wrong input. The parameters should be integers." << std::endl;
-                }
-                std::cout << "removing..." << std::endl;
-                try
-                {
-                    loaded_table.remove(stoi(parameters[1]), stoi(parameters[2]));
-                }
-                catch (std::invalid_argument& e)
-                {
-                    std::cout << e.what() << std::endl;
+                    try
+                    {
+                        int x = stoi(parameters[1]);
+                        x = stoi(parameters[2]);
+                    }
+                    catch(std::invalid_argument& e)
+                    {
+                        std::cout << "Wrong input. The parameters should be integers." << std::endl;
+                    }
+                    std::cout << "removing..." << std::endl;
+                    try
+                    {
+                        loaded_table.remove(stoi(parameters[1]), stoi(parameters[2]));
+                    }
+                    catch (std::invalid_argument& e)
+                    {
+                        std::cout << e.what() << std::endl;
+                    }
                 }
             }
         }

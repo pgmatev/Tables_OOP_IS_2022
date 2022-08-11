@@ -56,6 +56,10 @@ Table::Table(std::ifstream& file) : rows()
             rows.push_back(r);
         }
     }
+    else
+    {
+        throw std::invalid_argument("Non-existent file.");
+    }
     file.close();
     //The rows have different sizes, so they have to be resized
     resize();
